@@ -1,5 +1,6 @@
 package com.example.android.newsfeedapp;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -15,10 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,16 +25,27 @@ import java.util.List;
 
 public class QueryUtils {
 
+    /**
+     * Specific Keys for JSON Parsing
+     **/
+    private static final String KEY_RESPONSE = "response";
+    private static final String KEY_RESULTS = "results";
+    private static final String KEY_SECTION = "sectionName";
+    private static final String KEY_DATE = "webPublicationDate";
+    private static final String KEY_TITLE = "webTitle";
+    private static final String KEY_WEB_URL = "webUrl";
+
     private static final String LOG_TAG = QueryUtils.class.getSimpleName();
 
     private QueryUtils() {
     }
 
-    public static List<Article> fetchArticleData(String requestUrl) {
+    public static List<Article> fetchArticleData(String requestUrl, Context context) {
         URL url = createUrl(requestUrl);
         String jsonResponse = null;
+
         try {
-            jsonResponse = makeHttpRequest(url);
+            jsonResponse = makeHttpRequest(url, context);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem making HTTP request", e);
         }
@@ -45,7 +54,7 @@ public class QueryUtils {
         return articles;
     }
 
-    private static URL createUrl(String stringUrl) {
+    public static URL createUrl(String stringUrl) {
         URL url = null;
         try {
             url = new URL(stringUrl);
@@ -55,11 +64,12 @@ public class QueryUtils {
         return url;
     }
 
-    private static String makeHttpRequest(URL url) throws IOException {
-        String jsonResponse = "";
+    public static String makeHttpRequest(URL url, Context context) throws IOException {
+        String jsonResponse = null;
         if (url == null) {
             return jsonResponse;
         }
+        final Context context1 = context;
         HttpURLConnection urlConnection = null;
         InputStream inputStream = null;
 
@@ -78,7 +88,12 @@ public class QueryUtils {
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem retrieving the article JSON result", e);
+
         } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+
             if (inputStream != null) {
                 inputStream.close();
             }
@@ -86,7 +101,7 @@ public class QueryUtils {
         }
     }
 
-    private static String readFromStream(InputStream inputStream) throws IOException {
+    public static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
         if (inputStream != null) {
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
@@ -100,45 +115,76 @@ public class QueryUtils {
         return output.toString();
     }
 
-    private static String title;
-    private static String publishedDate;
+//    public String getFormatedDate(String publishedDate) {
+//        if (publishedDate != null && publishedDate.isEmpty()) {
+//            String jsonDatePattern = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+//            SimpleDateFormat jsonFormatter = new SimpleDateFormat(jsonDatePattern, Locale.getDefault());
+//
+//            try {
+//                Date parsedJsonDate = jsonFormatter.parse(publishedDate);
+//                String finalDatePattern = "yyyy-MM-dd HH:mm";
+//                SimpleDateFormat finalDateFormatter = new SimpleDateFormat(finalDatePattern, Locale.getDefault());
+//                return finalDateFormatter.format(parsedJsonDate);
+//            } catch (ParseException e) {
+//                Log.e(LOG_TAG, "Error parsing the JSON date", e);
+//            }
+//        }
+//        Log.e(LOG_TAG, "wtf");
+//        return "daaaaaaaaa";
+//    }
 
-    private static List<Article> extractFeatureFromJson(String articleJSON) {
-        if (TextUtils.isEmpty(articleJSON)) {
+    public static List<Article> extractFeatureFromJson(String jsonResponse) {
+        if (TextUtils.isEmpty(jsonResponse)) {
             return null;
         }
-        List<Article> articles;
-        articles = new ArrayList<>();
+
+        // Create an empty List<NewsItem>
+        List<Article> articles = new ArrayList<Article>();
 
         try {
-            JSONObject baseJsonResponse = new JSONObject(articleJSON);
+            // Build the list of Article Objects
+            JSONObject baseJsonResponse = new JSONObject(jsonResponse);
+            JSONObject responseJsonObject = baseJsonResponse.getJSONObject(KEY_RESPONSE);
+            JSONArray newsResult = responseJsonObject.getJSONArray(KEY_RESULTS);
 
-            if (baseJsonResponse.getJSONObject("response").has("results")) {
-                JSONArray resultsArray = baseJsonResponse.getJSONObject("response").getJSONArray("results");
+            // Variables for JSON parsing
+            String title;
+            String section;
+            String publishedDate;
+            String webUrl;
+            String thumbnail;
 
-                int item;
-                for (item = 0; item < resultsArray.length(); item++) {
-                    JSONObject articleInfo = resultsArray.getJSONObject(item);
+            for (int i = 0; i < newsResult.length(); i++) {
+                JSONObject newsArticle = newsResult.getJSONObject(i);
 
-                    if (articleInfo.has("webPublicationDate")) {
-                        String timeUnformatted = articleInfo.getString("webPublicationDate");
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z");
-                        try {
-                            Date date = format.parse(timeUnformatted);
-                            publishedDate = (String) android.text.format.DateFormat.format("MMM" + " " + "dd" + ", " + "HH:mm", date);
-                        } catch (ParseException exc_05) {
-                            Log.e(LOG_TAG, "An exception was encounterd while trying to parse a date" + exc_05);
-                            publishedDate = "";
-                        }
-                    } else {
-                        publishedDate = "";
-                    }
-
-                    if (articleInfo.has("webTitle")) {
-                        title = articleInfo.getString("webTitle");
-                    }
+                // Check if title exists
+                if (newsArticle.has(KEY_TITLE)) {
+                    title = newsArticle.getString(KEY_TITLE);
+                } else {
+                    title = null;
                 }
-                Article article = new Article(title, publishedDate);
+
+                // Check if section exists
+                if (newsArticle.has(KEY_SECTION)) {
+                    section = newsArticle.getString(KEY_SECTION);
+                } else {
+                    section = null;
+                }
+
+                // Check if webUrl exists
+                if (newsArticle.has(KEY_WEB_URL)) {
+                    webUrl = newsArticle.getString(KEY_WEB_URL);
+                } else {
+                    webUrl = null;
+                }
+
+                // Check if publishing date exists
+                if (newsArticle.has(KEY_DATE)) {
+                    publishedDate = newsArticle.getString(KEY_DATE);
+                } else {
+                    publishedDate = null;
+                }
+                Article article = new Article(title,section, publishedDate, webUrl);
                 articles.add(article);
             }
         } catch (JSONException e) {

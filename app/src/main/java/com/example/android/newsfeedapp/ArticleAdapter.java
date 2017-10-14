@@ -1,15 +1,17 @@
 package com.example.android.newsfeedapp;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import org.json.JSONException;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Sabina on 10/5/2017.
@@ -17,22 +19,21 @@ import java.util.List;
 
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHolder> {
 
-    private List<Article> articles = null;
-    private Context context;
-    private String url;
+    private List<Article> articles;
+    public int cardType = 0;
+    public static final String LOG_TAG = FragmentTopStories.class.getSimpleName();
 
-//    public ArticleAdapter(Context context) {
-//        this.context = context;
-//    }
+    /**
+     * Tag for the log messages
+     */
 
-    public ArticleAdapter(Context context, List<Article> articles) {
-        this.context = context;
-        this.articles = articles;
-
+    public ArticleAdapter(int cardType) {
+        this.cardType = cardType;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ArticleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_item, parent, false);
         try {
             return new ViewHolder(view);
@@ -43,33 +44,60 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Article article = articles.get(position);
-        holder.cardViewTitle.setText(article.getTitle());
-        holder.cardViewAuthor.setText(article.getAuthor());
+    public void onBindViewHolder(ArticleAdapter.ViewHolder holder, int position) {
+        holder.cardViewTitle.setText(articles.get(position).getTitle());
+        holder.cardViewPublishedDate.setText(getFormatedDate(articles.get(position).getPublishedDate()));
+        holder.cardViewSection.setText(articles.get(position).getSection());
+    }
+
+    public String getFormatedDate(String publishedDate) {
+        if (publishedDate != null && publishedDate.isEmpty()) {
+            String jsonDatePattern = "yyyy-MM-dd'T'HH:mm:ssZ";
+            SimpleDateFormat jsonFormatter = new SimpleDateFormat(jsonDatePattern, Locale.getDefault());
+
+            try {
+                Date parsedJsonDate = jsonFormatter.parse(publishedDate);
+                String finalDatePattern = "yyyy-MM-dd HH:mm";
+                SimpleDateFormat finalDateFormatter = new SimpleDateFormat(finalDatePattern, Locale.getDefault());
+                return finalDateFormatter.format(parsedJsonDate);
+            } catch (ParseException e) {
+                Log.e(LOG_TAG, "Error parsing the JSON date", e);
+            }
+        }
+        return " ";
     }
 
     @Override
     public int getItemCount() {
         if (articles != null) {
             return articles.size();
-        } return 0;
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView cardViewTitle;
-        private TextView cardViewAuthor;
-
-
-        public ViewHolder(View itemView) throws JSONException {
-            super(itemView);
-            cardViewTitle = (TextView) itemView.findViewById(R.id.article_title);
-            cardViewAuthor = (TextView) itemView.findViewById(R.id.article_author);
         }
+        return 0;
     }
 
     public void addAll(List<Article> articles) {
         this.articles = articles;
+        notifyDataSetChanged();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView cardViewTitle;
+        public TextView cardViewPublishedDate;
+        public TextView cardViewSection;
+
+        public ViewHolder(View itemView) throws JSONException {
+            super(itemView);
+
+            cardViewTitle = (TextView) itemView.findViewById(R.id.article_title);
+            cardViewPublishedDate = (TextView) itemView.findViewById(R.id.article_date);
+            cardViewSection = (TextView) itemView.findViewById(R.id.article_section);
+
+
+        }
+    }
+
+    public void clearAll() {
+        this.articles = null;
         notifyDataSetChanged();
     }
 }

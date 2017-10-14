@@ -7,12 +7,17 @@ package com.example.android.newsfeedapp;
 public class Article {
 
     private String title;
-    private String author;
+    private String section;
+    private String publishedDate;
+    private String webUrl;
 //    private Bitmap thumbnail;
 
-    public Article(String title, String author) {
+
+    public Article(String title, String section, String publishedDate, String webUrl) {
         this.title = title;
-        this.author = author;
+        this.section = section;
+        this.webUrl = webUrl;
+        this.publishedDate = publishedDate;
 //        this.thumbnail = thumbnail;
     }
 
@@ -20,12 +25,16 @@ public class Article {
         return title;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getSection() {
+        return section;
     }
 
-//    public Bitmap getThumbnail() {
-//        return thumbnail;
-//    }
+    public String getPublishedDate() {
+        return publishedDate;
+    }
+
+    public String getWebUrl() {
+        return webUrl;
+    }
 
 }

@@ -9,7 +9,6 @@ import java.util.List;
  */
 
 public class ArticleLoader extends android.support.v4.content.AsyncTaskLoader<List<Article>> {
-    private static final String LOG_TAG = FragmentTopStories.class.getName();
     private String url;
 
     public ArticleLoader(Context context, String url) {
@@ -29,7 +28,7 @@ public class ArticleLoader extends android.support.v4.content.AsyncTaskLoader<Li
             return null;
         }
 
-        List<Article> articles = QueryUtils.fetchArticleData(url);
+        List<Article> articles = QueryUtils.fetchArticleData(url, getContext());
         return articles;
     }
 }
