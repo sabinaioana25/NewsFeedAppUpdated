@@ -5,10 +5,16 @@
     android:background="@color/colorPrimary"
     tools:context="com.example.android.newsfeedapp.FragmentTopStories">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_top_stories"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_top_stories"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <TextView
         android:id="@+id/empty_text_view"
@@ -16,14 +22,14 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:textAppearance="?android:textAppearanceMedium"
-        tools:text="@string/message_placeholder"/>
+        tools:text="@string/message_placeholder" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/empty_text_view"
-        android:layout_centerHorizontal="true"
-        style="@style/Widget.AppCompat.ProgressBar"></ProgressBar>
+        android:layout_centerHorizontal="true"></ProgressBar>
 
 </RelativeLayout>

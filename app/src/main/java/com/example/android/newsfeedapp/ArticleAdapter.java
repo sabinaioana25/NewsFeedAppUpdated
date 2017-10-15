@@ -6,9 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import org.json.JSONException;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -75,6 +78,20 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
         return 0;
     }
 
+    public void swapData(List<Article> newArticleList) {
+        if (newArticleList != null && newArticleList.size() > 0) {
+            articles.clear();
+            if (newArticleList == null) {
+                articles = new ArrayList<Article>();
+            } else {
+                articles.addAll(newArticleList);
+            }
+        } else {
+            articles = (ArrayList<Article>) newArticleList;
+        }
+        notifyDataSetChanged();
+    }
+
     public void addAll(List<Article> articles) {
         this.articles = articles;
         notifyDataSetChanged();
@@ -91,8 +108,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
             cardViewTitle = (TextView) itemView.findViewById(R.id.article_title);
             cardViewPublishedDate = (TextView) itemView.findViewById(R.id.article_date);
             cardViewSection = (TextView) itemView.findViewById(R.id.article_section);
-
-
         }
     }
 

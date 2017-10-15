@@ -10,7 +10,6 @@ public class Article {
     private String section;
     private String publishedDate;
     private String webUrl;
-//    private Bitmap thumbnail;
 
 
     public Article(String title, String section, String publishedDate, String webUrl) {
@@ -18,7 +17,6 @@ public class Article {
         this.section = section;
         this.webUrl = webUrl;
         this.publishedDate = publishedDate;
-//        this.thumbnail = thumbnail;
     }
 
     public String getTitle() {

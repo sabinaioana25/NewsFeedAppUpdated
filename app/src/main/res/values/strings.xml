@@ -1,4 +1,6 @@
 <resources>
+    <string name="newsfeedapp">GridLayoutManagerRecyclerView</string>
+
     <string name="app_name">Science NOW!</string>
     <string name="fragmentTopStories">Top Stories</string>
     <string name="fragmentJustIn">Just In</string>
@@ -17,34 +19,26 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_favorite">favorite</string>
-    <string name="action_settings">action_settings</string>
+    <string name="action_settings">settings</string>
     <string name="action_search">search</string>
-    <string name="home">home_menu</string>
-    <string name="open">open</string>
-    <string name="close">close</string>
 
-    <string name="newsfeedapp">GridLayoutManagerRecyclerView</string>
-    <string name="message_placeholder">empty_text_view</string>
-    <string name="article_section_text_view">section</string>
-    <string name="settings_title">settings_title</string>
-    <string name="settings_search_query_default">settings_search_query_default</string>
-    <string name="settings_search_query">q</string>
-    <string name="settings_search_query_label">settings_search_query_label</string>
-    <string name="settings_order_by_newest">settings_order_by_newest</string>
-    <string name="settings_order_by_list_key">settings_order_by_list_key</string>
-    <string name="settings_order_by_list_label">settings_order_by_list_label</string>
-    <string-array name="company_list">
-        <item>Apple</item>
-        <item>Facebook</item>
-        <item>Google</item>
-        <item>Instagram</item>
-        <item>Linked in</item>
-        <item>Microsoft</item>
-        <item>MySpace</item>
-        <item>Skype</item>
-        <item>Snapchat</item>
-        <item>Twitter</item>
-        <item>Viber</item>
-        <item>Whatsapp</item>
+    <string name="message_placeholder">Empty</string>
+    <string name="article_section_text_view">Section</string>
+    <string name="article_date">Date</string>
+
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="fetching_articles">Fetching articles...</string>
+
+
+    <!-- Strings Menu Item [CHAR LIMIT=NONE] -->
+    <string name="settings_menu_item">Settings</string>
+    <!-- Settings Activity Title [CHAR LIMIT=NONE] -->
+    <string name="settings_title">News Settings</string>
+
+    <string-array name="settings_order_by_labels">
+        <item>@string/settings_order_by_newest</item>
+        <item>@string/settings_order_by_oldest_label</item>
+        <item>@string/settings_order_by_relevance_label</item>
     </string-array>
+
 </resources>

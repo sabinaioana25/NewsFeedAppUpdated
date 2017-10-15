@@ -115,24 +115,6 @@ public class QueryUtils {
         return output.toString();
     }
 
-//    public String getFormatedDate(String publishedDate) {
-//        if (publishedDate != null && publishedDate.isEmpty()) {
-//            String jsonDatePattern = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-//            SimpleDateFormat jsonFormatter = new SimpleDateFormat(jsonDatePattern, Locale.getDefault());
-//
-//            try {
-//                Date parsedJsonDate = jsonFormatter.parse(publishedDate);
-//                String finalDatePattern = "yyyy-MM-dd HH:mm";
-//                SimpleDateFormat finalDateFormatter = new SimpleDateFormat(finalDatePattern, Locale.getDefault());
-//                return finalDateFormatter.format(parsedJsonDate);
-//            } catch (ParseException e) {
-//                Log.e(LOG_TAG, "Error parsing the JSON date", e);
-//            }
-//        }
-//        Log.e(LOG_TAG, "wtf");
-//        return "daaaaaaaaa";
-//    }
-
     public static List<Article> extractFeatureFromJson(String jsonResponse) {
         if (TextUtils.isEmpty(jsonResponse)) {
             return null;
@@ -145,14 +127,13 @@ public class QueryUtils {
             // Build the list of Article Objects
             JSONObject baseJsonResponse = new JSONObject(jsonResponse);
             JSONObject responseJsonObject = baseJsonResponse.getJSONObject(KEY_RESPONSE);
-            JSONArray newsResult = responseJsonObject.getJSONArray(KEY_RESULTS);
+            JSONArray newsResult = responseJsonObject.getJSONArray(KEY_RESULTS);;
 
             // Variables for JSON parsing
             String title;
             String section;
             String publishedDate;
             String webUrl;
-            String thumbnail;
 
             for (int i = 0; i < newsResult.length(); i++) {
                 JSONObject newsArticle = newsResult.getJSONObject(i);
@@ -184,7 +165,7 @@ public class QueryUtils {
                 } else {
                     publishedDate = null;
                 }
-                Article article = new Article(title,section, publishedDate, webUrl);
+                Article article = new Article(title, section, publishedDate, webUrl);
                 articles.add(article);
             }
         } catch (JSONException e) {
