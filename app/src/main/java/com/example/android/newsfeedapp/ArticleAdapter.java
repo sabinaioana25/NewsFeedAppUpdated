@@ -24,7 +24,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
 
     private List<Article> articles;
     public int cardType = 0;
-    public static final String LOG_TAG = FragmentTopStories.class.getSimpleName();
+    public static final String LOG_TAG = FragmentHealthcare.class.getSimpleName();
 
     /**
      * Tag for the log messages

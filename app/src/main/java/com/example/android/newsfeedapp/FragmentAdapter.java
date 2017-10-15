@@ -21,11 +21,11 @@ class FragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new FragmentTopStories();
+                return new FragmentHealthcare();
             case 1:
-                return new FragmentJustIn();
+                return new FragmentScience();
             case 2:
-                return new FragmentNewsFeed();
+                return new FragmentTechnology();
         }
         return null;
     }
@@ -38,11 +38,11 @@ class FragmentAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         if (position == 0) {
-            return context.getString(R.string.fragmentTopStories);
+            return context.getString(R.string.fragmentTechnology);
         } else if (position == 1) {
-            return context.getString(R.string.fragmentJustIn);
+            return context.getString(R.string.fragmentHealthcare);
         } else {
-            return context.getString(R.string.fragmentNewsFeed);
+            return context.getString(R.string.fragmentScience);
         }
     }
 }

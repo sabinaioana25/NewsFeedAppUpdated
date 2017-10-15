@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="settings_order_by_labels">
-        <item>@string/settings_order_by_newest</item>
-        <item>@string/settings_order_by_oldest_label</item>
+    <string-array name="settings_order_by_label">
         <item>@string/settings_order_by_relevance_label</item>
+        <item>@string/settings_order_by_newest_label</item>
+        <item>@string/settings_order_by_oldest_label</item>
     </string-array>
 
-    <string-array name="settings_order_by_values">
+    <string-array name="settings_order_by_value">
+        <item>@string/settings_order_by_relevance_value</item>
         <item>@string/settings_order_by_newest_value</item>
         <item>@string/settings_order_by_oldest_value</item>
-        <item>@string/settings_order_by_relevance_value</item>
     </string-array>
-    <string name="settings_order_by_oldest_label">settings_order_by_oldest</string>
-    <string name="settings_order_by_relevance_label">settings_order_by_relevance</string>
-    <string name="settings_order_by_newest_value">settings_order_by_newest_value</string>
-    <string name="settings_order_by_oldest_value">settings_order_by_oldest_value</string>
-    <string name="settings_order_by_relevance_value">settings_order_by_relevance_value</string>
+
 </resources>
