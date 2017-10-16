@@ -45,4 +45,6 @@
 
     <string name="settings_order_by_newest_label">Newest First</string>
     <string name="settings_order_by_newest_value" translatable="false">newest</string>
-   </resources>
+    <string name="search_hint_text">search</string>
+    <string name="searchable">searchable</string>
+</resources>

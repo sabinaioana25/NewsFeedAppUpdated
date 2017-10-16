@@ -127,7 +127,7 @@ public class QueryUtils {
             // Build the list of Article Objects
             JSONObject baseJsonResponse = new JSONObject(jsonResponse);
             JSONObject responseJsonObject = baseJsonResponse.getJSONObject(KEY_RESPONSE);
-            JSONArray newsResult = responseJsonObject.getJSONArray(KEY_RESULTS);;
+            JSONArray newsResult = responseJsonObject.getJSONArray(KEY_RESULTS);
 
             // Variables for JSON parsing
             String title;
@@ -152,6 +152,13 @@ public class QueryUtils {
                     section = null;
                 }
 
+                // Check if publishing date exists
+                if (newsArticle.has(KEY_DATE)) {
+                    publishedDate = newsArticle.getString(KEY_DATE);
+                } else {
+                    publishedDate = null;
+                }
+
                 // Check if webUrl exists
                 if (newsArticle.has(KEY_WEB_URL)) {
                     webUrl = newsArticle.getString(KEY_WEB_URL);
@@ -159,13 +166,10 @@ public class QueryUtils {
                     webUrl = null;
                 }
 
-                // Check if publishing date exists
-                if (newsArticle.has(KEY_DATE)) {
-                    publishedDate = newsArticle.getString(KEY_DATE);
-                } else {
-                    publishedDate = null;
-                }
-                Article article = new Article(title, section, publishedDate, webUrl);
+                String newDate;
+                newDate = publishedDate.substring(0, 10) + ", " + publishedDate.substring(11, 16);
+
+                Article article = new Article(title, section, newDate, webUrl);
                 articles.add(article);
             }
         } catch (JSONException e) {

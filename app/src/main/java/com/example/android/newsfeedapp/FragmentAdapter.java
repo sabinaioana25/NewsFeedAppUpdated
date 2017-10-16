@@ -21,11 +21,11 @@ class FragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new FragmentHealthcare();
-            case 1:
-                return new FragmentScience();
-            case 2:
                 return new FragmentTechnology();
+            case 1:
+                return new FragmentHealthcare();
+            case 2:
+                return new FragmentScience();
         }
         return null;
     }
