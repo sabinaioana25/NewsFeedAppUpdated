@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -33,15 +34,14 @@ public class FragmentTechnology extends Fragment
     private static final String LOG_TAG = FragmentTechnology.class.getSimpleName();
     private static final int CARD_TYPE = 1;
     private static final String ARTICLE_REQUEST_TOP_URL =
-            "https://content.guardianapis.com/search?q=cinema&format=json&&show-tags=contributor&show-fields=starRating,headline,thumbnail,short-url&show-refinements=all&order-by=relevance&api-key=c76396a7-7a54-46d9-a768-3f0cc1fedc5c";
+            "https://content.guardianapis.com/search?q=cinema&format=json&&show-tags=contributor&show-fields=starRating,headline,thumbnail,short-url&show-refinements=all&order-by=relevance&api-key=test";
     private static final int NEWS_LOADER_ID = 0;
     ArticleAdapter articleAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextView emptyTextView;
     private ProgressBar progressBar;
 
-    private final String API_KEY = "api-key";
-    private static final String KEY = "c76396a7-7a54-46d9-a768-3f0cc1fedc5c";
+    private final String API_KEY = "c76396a7-7a54-46d9-a768-3f0cc1fedc5c";
 
     public FragmentTechnology() {
         // Required empty public constructor
@@ -94,7 +94,14 @@ public class FragmentTechnology extends Fragment
     @Override
     public Loader<List<Article>> onCreateLoader(int id, Bundle args) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        return new ArticleLoader(getContext(), ARTICLE_REQUEST_TOP_URL);
+
+        String orderArticle = sharedPreferences.getString(getString(R.string.settings_order_by_key),getString(R.string.settings_order_by_default));
+        Uri baseUri = Uri.parse(ARTICLE_REQUEST_TOP_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+        uriBuilder.appendQueryParameter("order-by", orderArticle);
+        uriBuilder.appendQueryParameter("test", API_KEY);
+
+        return new ArticleLoader(getContext(), uriBuilder.toString());
     }
 
     @Override

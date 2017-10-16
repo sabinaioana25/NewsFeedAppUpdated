@@ -47,4 +47,6 @@
     <string name="settings_order_by_newest_value" translatable="false">newest</string>
     <string name="search_hint_text">search</string>
     <string name="searchable">searchable</string>
+    <string name="query">query</string>
+    <string name="settings_search_query_default">search_query_default</string>
 </resources>
