@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context="com.example.android.newsfeedapp.FragmentTechnology">
+    tools:context="com.example.android.newsfeedapp.FragmentHealthcare">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_recycler_view"
@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view_top_stories"
+            android:id="@+id/recycler_view_healthcare"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
@@ -30,6 +30,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/empty_text_view"
-        android:layout_centerHorizontal="true"></ProgressBar>
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

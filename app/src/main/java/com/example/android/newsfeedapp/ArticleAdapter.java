@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -85,6 +86,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
         public TextView cardViewSection;
         public String webUrl;
         private final Context context;
+        public ImageView bookmarkIconFull;
+        public ImageView bookMarkIconBorder;
 
         public ViewHolder(final View itemView) throws JSONException {
             super(itemView);
@@ -93,6 +96,17 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
             cardViewTitle = (TextView) itemView.findViewById(R.id.article_title);
             cardViewPublishedDate = (TextView) itemView.findViewById(R.id.article_date);
             cardViewSection = (TextView) itemView.findViewById(R.id.article_section);
+
+            bookmarkIconFull = (ImageView) itemView.findViewById(R.id.article_bookmark_image_full);
+            bookMarkIconBorder = (ImageView) itemView.findViewById(R.id.article_bookmark_image);
+
+            bookMarkIconBorder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    bookMarkIconBorder.setVisibility(View.GONE);
+                    bookmarkIconFull.setVisibility(View.VISIBLE);
+                }
+            });
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

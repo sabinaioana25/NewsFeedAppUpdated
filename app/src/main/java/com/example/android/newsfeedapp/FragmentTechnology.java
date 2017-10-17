@@ -34,7 +34,7 @@ public class FragmentTechnology extends Fragment
     private static final String LOG_TAG = FragmentTechnology.class.getSimpleName();
     private static final int CARD_TYPE = 1;
     private static final String ARTICLE_REQUEST_TOP_URL =
-            "https://content.guardianapis.com/search?q=cinema&format=json&&show-tags=contributor&show-fields=starRating,headline,thumbnail,short-url&show-refinements=all&order-by=relevance&api-key=test";
+            "https://content.guardianapis.com/search?q=technology%20spacex%20&show-references=all&api-key=test";
     private static final int NEWS_LOADER_ID = 0;
     ArticleAdapter articleAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -50,18 +50,16 @@ public class FragmentTechnology extends Fragment
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_view, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_technology, container, false);
 
         articleAdapter = new ArticleAdapter(CARD_TYPE);
 
         RecyclerView.LayoutManager layoutManagerTop = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-        RecyclerView recyclerViewHealthcare = (RecyclerView) rootView.findViewById(R.id.recycler_view_top_stories);
-        recyclerViewHealthcare.setAdapter(articleAdapter);
-        recyclerViewHealthcare.setHasFixedSize(false);
-        recyclerViewHealthcare.setNestedScrollingEnabled(true);
-        recyclerViewHealthcare.setLayoutManager(layoutManagerTop);
-
-        setHasOptionsMenu(true);
+        RecyclerView recyclerViewTechnology = (RecyclerView) rootView.findViewById(R.id.recycler_view_technology);
+        recyclerViewTechnology.setAdapter(articleAdapter);
+        recyclerViewTechnology.setHasFixedSize(true);
+        recyclerViewTechnology.setNestedScrollingEnabled(false);
+        recyclerViewTechnology.setLayoutManager(layoutManagerTop);
 
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_recycler_view);
         progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
@@ -95,7 +93,7 @@ public class FragmentTechnology extends Fragment
     public Loader<List<Article>> onCreateLoader(int id, Bundle args) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-        String orderArticle = sharedPreferences.getString(getString(R.string.settings_order_by_key),getString(R.string.settings_order_by_default));
+        String orderArticle = sharedPreferences.getString(getString(R.string.settings_order_by_key), getString(R.string.settings_order_by_default));
         Uri baseUri = Uri.parse(ARTICLE_REQUEST_TOP_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
         uriBuilder.appendQueryParameter("order-by", orderArticle);
