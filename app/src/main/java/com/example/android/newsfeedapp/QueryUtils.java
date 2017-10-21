@@ -2,7 +2,6 @@ package com.example.android.newsfeedapp;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,8 +34,6 @@ public class QueryUtils {
     private static final String KEY_TITLE = "webTitle";
     private static final String KEY_WEB_URL = "webUrl";
 
-    private static final String LOG_TAG = QueryUtils.class.getSimpleName();
-
     private QueryUtils() {
     }
 
@@ -47,7 +44,6 @@ public class QueryUtils {
         try {
             jsonResponse = makeHttpRequest(url, context);
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem making HTTP request", e);
         }
 
         List<Article> articles = extractFeatureFromJson(jsonResponse);
@@ -59,7 +55,6 @@ public class QueryUtils {
         try {
             url = new URL(stringUrl);
         } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Problem building the URL", e);
         }
         return url;
     }
@@ -84,10 +79,8 @@ public class QueryUtils {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
-                Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the article JSON result", e);
 
         } finally {
             if (urlConnection != null) {
@@ -173,7 +166,6 @@ public class QueryUtils {
                 articles.add(article);
             }
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "An exception was encountered" + e);
         }
         return articles;
     }

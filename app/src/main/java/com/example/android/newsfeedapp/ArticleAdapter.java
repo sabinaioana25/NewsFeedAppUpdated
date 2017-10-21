@@ -23,7 +23,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
 
     private List<Article> articles;
     public int cardType = 0;
-    public static final String LOG_TAG = FragmentTechnology.class.getSimpleName();
 
     /**
      * Tag for the log messages
@@ -113,7 +112,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
                 public void onClick(View v) {
                     Uri articleUri = Uri.parse(webUrl);
                     Intent webIntent = new Intent(Intent.ACTION_VIEW, articleUri);
-                    context.startActivity(webIntent);
+                    if (webIntent.resolveActivity(context.getPackageManager()) !=null) {
+                        context.startActivity(webIntent);
+                    }
                 }
             });
         }

@@ -14,7 +14,6 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,6 @@ import java.util.List;
 public class FragmentHealthcare extends Fragment
         implements LoaderManager.LoaderCallbacks<List<Article>> {
 
-    private static final String LOG_TAG = FragmentHealthcare.class.getSimpleName();
     private static final int CARD_TYPE = 1;
     private static final String ARTICLE_REQUEST_TOP_URL =
             "https://content.guardianapis.com/search?q=healthcare%20medical&20&api-key=test";
@@ -110,7 +108,6 @@ public class FragmentHealthcare extends Fragment
             emptyTextView.setVisibility(View.GONE);
             swipeRefreshLayout.setRefreshing(false);
         }
-        Log.v("FragmentHealthcare", "Loader completed the task");
     }
 
     @Override

@@ -14,7 +14,6 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,6 @@ import java.util.List;
 public class FragmentScience extends Fragment
         implements LoaderManager.LoaderCallbacks<List<Article>> {
 
-    private static final String LOG_TAG = FragmentScience.class.getSimpleName();
     private static final int CARD_TYPE = 1;
     private static final String ARTICLE_REQUEST_TOP_URL =
             "https://content.guardianapis.com/search?q=science%20biology&show-references=all&api-key=test";
@@ -111,8 +109,6 @@ public class FragmentScience extends Fragment
             emptyTextView.setVisibility(View.GONE);
             swipeRefreshLayout.setRefreshing(false);
         }
-        Log.v("FragmentScience", "Loader completed the task");
-
     }
 
     @Override
